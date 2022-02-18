@@ -9,9 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
-@Data
 @Entity
+@Data
 public class Post {
 
     @Id
@@ -31,6 +30,10 @@ public class Post {
     private List<Commentaries> comments = new ArrayList<>();
     @Column(updatable = false)
     private LocalDateTime createdDate;
+
+    public Post(){
+
+    }
 
     @PrePersist
     protected void onCreate(){

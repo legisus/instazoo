@@ -1,7 +1,6 @@
 package com.example.demo.annotations;
 
 import com.example.demo.validations.EmailValidator;
-import org.springframework.context.annotation.Configuration;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,4 +1,4 @@
-package com.example.demo.payload.response;
+package com.example.demo.payload.reponse;
 
 import lombok.Getter;
 
@@ -8,8 +8,10 @@ public class InvalidLoginResponse {
     private String username;
     private String password;
 
-    public InvalidLoginResponse(){
+    public InvalidLoginResponse() {
         this.username = "Invalid Username";
         this.password = "Invalid Password";
     }
+
+
 }

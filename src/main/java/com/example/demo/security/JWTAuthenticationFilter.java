@@ -29,7 +29,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String jwt = getJWTFormRequest(httpServletRequest);
+            String jwt = getJWTFromRequest(httpServletRequest);
             if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
                 Long userId = jwtTokenProvider.getUserIdFromToken(jwt);
                 User userDetails = customUserDetailsService.loadUserById(userId);
@@ -37,16 +37,18 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, Collections.emptyList()
                 );
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));;
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
             LOG.error("Could not set user authentication");
         }
+
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-    private String getJWTFormRequest(HttpServletRequest request) {
+    private String getJWTFromRequest(HttpServletRequest request) {
         String bearToken = request.getHeader(SecurityConstants.HEADER_STRING);
         if (StringUtils.hasText(bearToken) && bearToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             return bearToken.split(" ")[1];

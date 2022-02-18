@@ -1,4 +1,4 @@
-package com.example.demo.payload.response;
+package com.example.demo.payload.reponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,5 +7,4 @@ import lombok.Data;
 @AllArgsConstructor
 public class MessageResponse {
     private String message;
-
 }

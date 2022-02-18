@@ -25,7 +25,7 @@ public class JWTTokenProvider {
 
         Map<String, Object> claimsMap = new HashMap<>();
         claimsMap.put("id", userId);
-        claimsMap.put("username", user.getUsername());
+        claimsMap.put("username", user.getEmail());
         claimsMap.put("firstname", user.getName());
         claimsMap.put("lastname", user.getLastname());
 
@@ -36,10 +36,11 @@ public class JWTTokenProvider {
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();
+
     }
 
-    public boolean validateToken(String token){
-        try{
+    public boolean validateToken(String token) {
+        try {
             Jwts.parser()
                     .setSigningKey(SecurityConstants.SECRET)
                     .parseClaimsJws(token);
@@ -54,7 +55,7 @@ public class JWTTokenProvider {
         }
     }
 
-    public Long getUserIdFromToken(String token){
+    public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstants.SECRET)
                 .parseClaimsJws(token)

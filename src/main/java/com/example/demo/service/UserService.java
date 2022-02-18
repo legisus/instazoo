@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.User;
 import com.example.demo.entity.enums.ERole;
-import com.example.demo.entity.repository.UserRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.exceptions.UserExistException;
 import com.example.demo.payload.request.SignupRequest;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User createUser(SignupRequest userIn){
+    public User createUser(SignupRequest userIn) {
         User user = new User();
         user.setEmail(userIn.getEmail());
         user.setName(userIn.getFirstname());
@@ -34,17 +34,12 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userIn.getPassword()));
         user.getRoles().add(ERole.ROLE_USER);
 
-        try{
+        try {
             LOG.info("Saving User {}", userIn.getEmail());
             return userRepository.save(user);
-        }catch (Exception e){
-            LOG.error("Error during registration, {}. " + e.getMessage());
-            throw  new UserExistException("The user " + user.getUsername() + " already exist. Please check credentials");
+        } catch (Exception e) {
+            LOG.error("Error during registration. {}", e.getMessage());
+            throw new UserExistException("The user " + user.getUsername() + " already exist. Please check credentials");
         }
-
-
-
-
-
     }
 }

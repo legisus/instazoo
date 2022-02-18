@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.payload.response.InvalidLoginResponse;
+import com.example.demo.payload.reponse.InvalidLoginResponse;
 import com.google.gson.Gson;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         InvalidLoginResponse loginResponse = new InvalidLoginResponse();
         String jsonLoginResponse = new Gson().toJson(loginResponse);
         httpServletResponse.setContentType(SecurityConstants.CONTENT_TYPE);

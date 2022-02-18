@@ -1,9 +1,9 @@
 package com.example.demo.web;
 
-import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.payload.reponse.MessageResponse;
 import com.example.demo.payload.request.LoginRequest;
 import com.example.demo.payload.request.SignupRequest;
-import com.example.demo.payload.response.JWTTokenSuccessResponse;
+import com.example.demo.payload.reponse.JWTTokenSuccessResponse;
 import com.example.demo.security.JWTTokenProvider;
 import com.example.demo.security.SecurityConstants;
 import com.example.demo.service.UserService;
@@ -38,20 +38,24 @@ public class AuthController {
     public ResponseEntity<Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult) {
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
         if (!ObjectUtils.isEmpty(errors)) return errors;
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
         ));
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
+
         return ResponseEntity.ok(new JWTTokenSuccessResponse(true, jwt));
     }
-    @PostMapping("/reg")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult){
+    @PostMapping("/signup")
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult) {
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
-        if(!ObjectUtils.isEmpty(errors)) return errors;
+        if (!ObjectUtils.isEmpty(errors)) return errors;
+
         userService.createUser(signupRequest);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully"));
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
 }

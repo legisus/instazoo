@@ -19,11 +19,11 @@ public class SignupRequest {
     private String email;
     @NotEmpty(message = "Please enter your name")
     private String firstname;
-    @NotEmpty(message = "Please enter your last name")
+    @NotEmpty(message = "Please enter your lastname")
     private String lastname;
-    @NotEmpty(message = "Please enter your user name")
+    @NotEmpty(message = "Please enter your username")
     private String username;
-    @NotEmpty(message = "Please enter your password")
+    @NotEmpty(message = "Password is required")
     @Size(min = 6)
     private String password;
     private String confirmPassword;
